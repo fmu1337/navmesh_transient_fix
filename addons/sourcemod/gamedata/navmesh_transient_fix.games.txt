@@ -1,0 +1,42 @@
+"Games"
+{
+	"cstrike"
+	{
+		"Addresses"
+		{
+			"TheNavMesh"
+			{
+				"linux"
+				{
+					"signature"	"TheNavMesh"
+				}
+			}
+		}
+		"Signatures"
+		{
+			// global 'CNavMesh *TheNavMesh' (exported symbol in server_i486.so)
+			"TheNavMesh"
+			{
+				"library"	"server"
+				"linux"		"@TheNavMesh"
+			}
+		}
+		"Offsets"
+		{
+			// CUtlVector<CNavArea*> m_transientAreas inside CNavMesh (v34 linux server_i486.so)
+			// layout: CUtlMemory { T *m_pMemory; int m_nAllocationCount; int m_nGrowSize; } int m_Size;
+			"CNavMesh::m_transientAreas"
+			{
+				"linux"		"1296"	// 0x510: m_Memory.m_pMemory
+			}
+			"CNavMesh::m_transientAreas_Alloc"
+			{
+				"linux"		"1300"	// 0x514: m_Memory.m_nAllocationCount
+			}
+			"CNavMesh::m_transientAreas_Size"
+			{
+				"linux"		"1308"	// 0x51c: m_Size
+			}
+		}
+	}
+}

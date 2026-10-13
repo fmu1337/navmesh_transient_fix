@@ -93,16 +93,26 @@ A rotation that only contains maps with 0 TRANSIENT areas is not affected.
 ## Requirements / compatibility
 
 - CS:S **v34** (pre-OrangeBox, EP1 engine), **Linux** `server_i486.so`. The plugin refuses to load on other engine versions.
-- SourceMod 1.10+ (`GameData` methodmap; tested on 1.11.0.6522 and 1.13.0.7394).
-- No extensions: plain `GameData` + `LoadFromAddress`/`StoreToAddress`.
+- SourceMod **1.4+**. Written in old syntax and built once with `spcomp` 1.4.2; the same `.smx` runs on 1.4 … 1.13
+  (tested with that build on 1.13.0.7394; the new-syntax prototype ran on 1.11.0.6522).
+- No extensions: plain gamedata + `LoadFromAddress`/`StoreToAddress`.
 - Windows is not supported: there is no exported `TheNavMesh` symbol, so it would need a signature and offsets.
 
 ## Install
+
+Download the zip from [Releases](../../releases) and unpack it into the game dir (`cstrike/`):
 
 ```
 addons/sourcemod/plugins/navmesh_transient_fix.smx
 addons/sourcemod/gamedata/navmesh_transient_fix.games.txt
 ```
+
+## Build
+
+`tools/build-release.sh` compiles with the bundled `tools/compilers/sm1.4.2-linux/spcomp` (32-bit; needs `lib32stdc++6`,
+`lib32z1`) and writes `dist/navmesh_transient_fix-<version>.zip`. The version comes from the tag `vX.Y.Z`, else from
+the last commit subject, else `PLUGIN_VERSION`. GitHub Actions (`.github/workflows/release.yml`) runs it on every
+`v*` tag and attaches the zip to a GitHub Release; manual runs (`workflow_dispatch`) only upload an artifact.
 
 Restart the server after installing. A process that already changed maps can still hold stale pointers in memory,
 so only a fresh process is guaranteed clean.

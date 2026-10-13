@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: bash tools/build-release.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: navmesh_transient_fix
+          path: dist/navmesh_transient_fix-*.zip
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/navmesh_transient_fix-*.zip
+          generate_release_notes: true
+          body: |
+            CS:S v34 — NavMesh Transient Fix (SM 1.4+, Linux)
+            Fixes the use-after-free crash caused by stale CNavMesh transient areas after a map change.

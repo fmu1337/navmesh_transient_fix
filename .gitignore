@@ -1,0 +1,6 @@
+*.smx
+!addons/sourcemod/plugins/.gitkeep
+dist/
+*.zip
+.wine/
+__pycache__/
